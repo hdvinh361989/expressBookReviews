@@ -50,7 +50,7 @@ public_users.get('/author/:author', async function (req, res) {
     if (!foundBooks) {
         return res.status(404).json({message: `Books with ${author} not found`});
     }
-    res.status(200).json(foundBooks);
+    res.status(200).json({booksbyauthor:foundBooks});
 });
 
 // Get all books based on title
@@ -64,7 +64,7 @@ public_users.get('/title/:title', async function (req, res) {
     if (!foundBooks) {
         return res.status(404).json({message: `Book(s) with ${title} not found`});
     }
-    res.status(200).json(foundBooks);
+    res.status(200).json({booksbytitle:foundBooks});
 });
 
 //  Get book review

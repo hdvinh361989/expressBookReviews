@@ -37,7 +37,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     return res.status(400).json({message:`Can't find book with id ${isbn}`});
   }
   const {username} = req.session.authorization;
-  const {review}=req.body;
+  const {review}=req.query;
   book.reviews[username] =review;
   return res.status(200).json({message:`The review for the book with ISBN ${isbn} has been added/updated`});
 });
