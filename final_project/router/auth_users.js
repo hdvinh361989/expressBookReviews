@@ -24,8 +24,9 @@ regd_users.post("/login", (req,res) => {
 
   const accessToken = jwt.sign({password},JWT_SECRET,{expiresIn: '1h'});
   // Store token and username to session
-  res.session.authorization = {accessToken,username};
-  return res.status(200).json({message:`${username} has been logged in`})
+  req.session.authorization = {accessToken,username};
+  req.session.save();
+  return res.status(200).json({message:`Customer successfully logged in`})
 });
 
 // Add a book review
@@ -38,7 +39,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
   const {username} = req.session.authorization;
   const {review}=req.body;
   book.reviews[username] =review;
-  return res.status(200).json({message:`Saved successfully`});
+  return res.status(200).json({message:`The review for the book with ISBN ${isbn} has been added/updated`});
 });
 
 // Delete review
@@ -57,7 +58,7 @@ regd_users.delete("/auth/review/:isbn", (req, res) => {
   }
 
   delete book.reviews[username];
-  return res.status(200).json({message:`Deleted book with id ${isbn}`});
+  return res.status(200).json({message:`Reviews for the ISBN ${isbn} posted by the user ${username} deleted`});
 })
 
 module.exports.authenticated = regd_users;
